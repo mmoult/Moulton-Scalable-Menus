@@ -23,19 +23,20 @@ public class TouchPanel extends Panel implements TouchResponsiveComponent {
 	public TouchPanel(Panel parent, int x, int y, Color color) {
 		super(parent, x, y, color);
 	}
-	
+
 	@Override
 	public void render(Graphics g, int xx, int yy, int ww, int hh) {
 		super.render(g, xx, yy, ww, hh);
-		
+
 		Rectangle rect = getRenderRect(xx, yy, ww, hh, width, height);
 		int x = rect.x;
 		int y = rect.y;
 		int w = rect.width;
 		int h = rect.height;
-		if(parent != null) {
-			//We don't need to handle all of the vertices, only the important ones
-			int[][] trueVals = parent.handleOffsets(new int[] {x, x+w}, new int[] {y, y+h}, this);
+		if (parent != null) {
+			// We don't need to handle all of the vertices, only the important ones
+			int[][] trueVals = parent.handleOffsets(new int[] { x, x + w }, new int[] { y, y + h },
+					this);
 			lastX = trueVals[0][0];
 			lastY = trueVals[1][0];
 			lastXEnd = trueVals[0][1];
@@ -65,6 +66,7 @@ public class TouchPanel extends Panel implements TouchResponsiveComponent {
 	public EventAction getTouchAction() {
 		return touchAction;
 	}
+
 	public void setTouchAction(EventAction touchAction) {
 		this.touchAction = touchAction;
 	}

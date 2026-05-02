@@ -17,39 +17,42 @@ import moulton.scalable.utils.MenuSolver.Expression;
  * {@link #removeComponent(int, boolean)}. All components can be removed from the list by
  * {@link #clearComponents()}. The length of the list may be ascertained by
  * {@link #getListLength()}.
+ * 
  * @author Matthew Moulton
  */
 public class ListPanel extends VirtualPanel {
-	/**The height of each row specified by an algebraic expression.*/
+	/** The height of each row specified by an algebraic expression. */
 	protected Expression rowHeight;
 
 	/**
-	 * @param rowHeight the height of each row, specified as an expression of a menu component.
-	 * @param parent the panel this panel will reside upon.
-	 * @param x the x coordinate on the screen, given in menu component value format
-	 * @param y the y coordinate on the screen, given in menu component value format
-	 * @param shownWidth the expression for the component's displayed width.
+	 * @param rowHeight   the height of each row, specified as an expression of a menu component.
+	 * @param parent      the panel this panel will reside upon.
+	 * @param x           the x coordinate on the screen, given in menu component value format
+	 * @param y           the y coordinate on the screen, given in menu component value format
+	 * @param shownWidth  the expression for the component's displayed width.
 	 * @param shownHeight the expression for the component's displayed height.
-	 * @param fullWidth the entire width of the panel. In general, this is intended to be greater
-	 * than shownWidth.
-	 * @param color the background color for the box when editable
+	 * @param fullWidth   the entire width of the panel. In general, this is intended to be greater
+	 *                    than shownWidth.
+	 * @param color       the background color for the box when editable
 	 */
-	public ListPanel(String rowHeight, Panel parent, String x, String y,
-			String shownWidth, String shownHeight, String fullWidth, Color color) {
+	public ListPanel(String rowHeight, Panel parent, String x, String y, String shownWidth,
+			String shownHeight, String fullWidth, Color color) {
 		super(parent, x, y, shownWidth, shownHeight, fullWidth, "0", color);
 		// We fill fullHeight in as a variable relative to the number of rows used for the list
 		solve.addVariable("fullHeight", 0);
 		this.fullHeight = solve.parse("fullHeight", false, false);
 		this.rowHeight = solve.parse(rowHeight, false, false);
 	}
+
 	/**
 	 * @param rowHeight the height of each row, specified as an expression of a menu component
-	 * @param parent the panel this panel will reside upon.
-	 * @param x the integer x coordinate this panel should appear on its parent panel
-	 * @param y the integer y coordinate this panel should appear on its parent panel
+	 * @param parent    the panel this panel will reside upon.
+	 * @param x         the integer x coordinate this panel should appear on its parent panel
+	 * @param y         the integer y coordinate this panel should appear on its parent panel
 	 * @param fullWidth the entire width of the panel. In general, intended to be greater than the
-	 * shown width, determined at run time by the space on the grid allotted to this panel.
-	 * @param color the background color for the box when editable
+	 *                  shown width, determined at run time by the space on the grid allotted to
+	 *                  this panel.
+	 * @param color     the background color for the box when editable
 	 */
 	public ListPanel(String rowHeight, Panel parent, int x, int y, String fullWidth, Color color) {
 		super(parent, x, y, fullWidth, "0", color);
@@ -67,11 +70,12 @@ public class ListPanel extends VirtualPanel {
 	}
 
 	/**
-	 * The ListPanel stores elements in a vertical list. The specified component will be inserted
-	 * at its y-location in that list, displacing other elements if necessary. The x-value of the
+	 * The ListPanel stores elements in a vertical list. The specified component will be inserted at
+	 * its y-location in that list, displacing other elements if necessary. The x-value of the
 	 * component will be discarded.
 	 * <p>
 	 * This method calls {@link #addComponent(MenuComponent, int)} to store the component.
+	 * 
 	 * @param x an unused value. Included so this method can override the super method.
 	 * @param y the location on the list that the component should be stored
 	 */
@@ -85,6 +89,7 @@ public class ListPanel extends VirtualPanel {
 	 * y-value, it will be removed. The x-value is unused.
 	 * <p>
 	 * This method calls {@link #removeComponent(int, boolean)} to perform the deletion.
+	 * 
 	 * @param x an unused value. Included so this method can override the super method.
 	 * @param y where on the list the component should be deleted from
 	 * @return whether the component at the specified list index (y-value) was removed
@@ -98,19 +103,19 @@ public class ListPanel extends VirtualPanel {
 	 * Inserts a component to the list at the specified index. Displaces other elements if
 	 * necessary.
 	 * 
-	 * @param comp the component to be added
+	 * @param comp      the component to be added
 	 * @param listIndex the index of the vertical list to add the component at
 	 * @return whether the component was successfully added
 	 * @see #removeComponent(int, boolean)
 	 */
 	public boolean addComponent(MenuComponent comp, int listIndex) {
-		if(listIndex < 0)
-			throw new InvalidParameterException("The list index must be >= 0. Given: "+listIndex);
-		
+		if (listIndex < 0)
+			throw new InvalidParameterException("The list index must be >= 0. Given: " + listIndex);
+
 		int insertIndex = grid.getGridHeight();
-		while(insertIndex > listIndex) {
-			MenuComponent temp = grid.getAt(0, insertIndex-1);
-			if(temp != null)
+		while (insertIndex > listIndex) {
+			MenuComponent temp = grid.getAt(0, insertIndex - 1);
+			if (temp != null)
 				temp.setGridLocation(new Point(0, insertIndex));
 			grid.addComponent(temp, 0, insertIndex);
 			insertIndex--;
@@ -124,53 +129,53 @@ public class ListPanel extends VirtualPanel {
 	 * Removes the component at the specified index, if any.
 	 * 
 	 * @param listIndex the index of the vertical list to remove from
-	 * @param pull whether this deletion should pull successive elements down one index
-	 * @return whether the component was successfully removed
-	 * #see {@link #addComponent(MenuComponent, int)}
-	 * #see {@link #clearComponents()}
+	 * @param pull      whether this deletion should pull successive elements down one index
+	 * @return whether the component was successfully removed #see
+	 *         {@link #addComponent(MenuComponent, int)} #see {@link #clearComponents()}
 	 */
 	public boolean removeComponent(int listIndex, boolean pull) {
 		boolean remove = grid.removeComponent(0, listIndex, !pull);
-		if(!remove)
+		if (!remove)
 			return false;
-		
-		if(pull) {
-			while(listIndex<grid.getGridHeight()-1) {
-				MenuComponent temp = grid.getAt(0, listIndex+1);
-				if(temp != null)
+
+		if (pull) {
+			while (listIndex < grid.getGridHeight() - 1) {
+				MenuComponent temp = grid.getAt(0, listIndex + 1);
+				if (temp != null)
 					temp.setGridLocation(new Point(0, listIndex));
 				grid.addComponent(temp, 0, listIndex);
 				listIndex++;
-			}//remove the remains
+			} // remove the remains
 			grid.removeComponent(0, listIndex, true);
 		}
 		return true;
 	}
-	
+
 	/**
-	 * The components in the list are saved in {@link Panel#grid}. Thus, calling this method
-	 * returns the height of that grid.
+	 * The components in the list are saved in {@link Panel#grid}. Thus, calling this method returns
+	 * the height of that grid.
+	 * 
 	 * @return the height of the grid, or the length of the list held by this panel
 	 */
 	public int getListLength() {
 		return grid.getGridHeight();
 	}
-	
+
 	/**
 	 * Clears all held components in the grid from this list.
 	 */
 	public void clearComponents() {
 		Collection<MenuComponent> comps = grid.getHeldComponents();
-		if(comps.isEmpty())
+		if (comps.isEmpty())
 			return;
-		
-		//the linked list is the actual collection, so we can clear it
+
+		// the linked list is the actual collection, so we can clear it
 		comps.clear();
-		//we have to tell the formatter to resize though
+		// we have to tell the formatter to resize though
 		grid.addComponent(null, 0, 0);
 		grid.removeComponent(0, 0, true);
 	}
-	
+
 	/**
 	 * Draws on the graphics object to represent this ListPanel. The ListPanel changes its
 	 * {@link VirtualPanel#fullHeight} at render time to have each row drawn at the proper
@@ -179,39 +184,39 @@ public class ListPanel extends VirtualPanel {
 	 */
 	@Override
 	public void render(Graphics g, int xx, int yy, int ww, int hh) {
-		//full height is going to be the height of each row multiplied by the number of elements
+		// full height is going to be the height of each row multiplied by the number of elements
 		this.solve.updateValues(ww, hh);
 		int rowH = solve.eval(rowHeight);
 		int fullH = rowH * grid.getGridHeight();
 		solve.updateVariable("fullHeight", fullH);
-		
-		//if full height is less than the shown height, we have to add a null element to the grid
+
+		// if full height is less than the shown height, we have to add a null element to the grid
 		// to correct the shown height
 		int shownH;
-		if(parent != null && getGridLocation()==null) {
-			if (height.prefaced) {				
+		if (parent != null && getGridLocation() == null) {
+			if (height.prefaced) {
 				int y = yy + solve.eval(this.y);
 				int y2 = yy + solve.eval(this.height);
 				shownH = y2 - y;
 			} else
 				shownH = solve.eval(this.height);
-		}else
+		} else
 			shownH = hh;
-		
-		if(fullH < shownH && shownH > 0) {
+
+		if (fullH < shownH && shownH > 0) {
 			int nullPosition = grid.getGridHeight();
 			Double beforeWeight = grid.getRowWeight(nullPosition);
-			grid.specifyRowWeight(nullPosition, (shownH - fullH)/((double)rowH));
+			grid.specifyRowWeight(nullPosition, (shownH - fullH) / ((double) rowH));
 			grid.addComponent(null, 0, nullPosition);
-			//now render
+			// now render
 			super.render(g, xx, yy, ww, hh);
-			//fix the temporary weight values and null item
+			// fix the temporary weight values and null item
 			grid.removeComponent(0, nullPosition, true);
-			if(beforeWeight == null)
+			if (beforeWeight == null)
 				grid.specifyRowWeight(nullPosition, 1d);
 			else
 				grid.specifyRowWeight(nullPosition, beforeWeight);
-		}else
+		} else
 			super.render(g, xx, yy, ww, hh);
 	}
 

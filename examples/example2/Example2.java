@@ -18,18 +18,18 @@ import javax.swing.JPanel;
 
 import moulton.scalable.containers.Container;
 
-public class Example2 extends JPanel implements Container, MouseListener, KeyListener,
-		MouseMotionListener, MouseWheelListener {
+public class Example2 extends JPanel
+		implements Container, MouseListener, KeyListener, MouseMotionListener, MouseWheelListener {
 	private static final long serialVersionUID = 1L;
 	private Manager2 manager = null;
 	private JFrame frame;
 	private boolean running = true;
-	
-	public static void main(String args[]){
+
+	public static void main(String args[]) {
 		new Example2();
 	}
-	
-	public Example2(){
+
+	public Example2() {
 		frame = new JFrame("Example 2");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.add(this);
@@ -40,19 +40,19 @@ public class Example2 extends JPanel implements Container, MouseListener, KeyLis
 		frame.setVisible(true);
 		frame.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS,
 				Collections.emptySet());
-		
+
 		addMouseListener(this);
 		addKeyListener(this);
 		addMouseMotionListener(this);
 		addMouseWheelListener(this);
-		
-		//start run loop so the screen can refresh every second or so
+
+		// start run loop so the screen can refresh every second or so
 		run();
 	}
-	
+
 	private void run() {
-		//the only animation is that of the text box blinker. The blinker blinks every
-		//second, thus we render slightly faster to make sure all changes are shown.
+		// the only animation is that of the text box blinker. The blinker blinks every
+		// second, thus we render slightly faster to make sure all changes are shown.
 		final int FRAME_PER_MS = 800;
 		long currentTime;
 		long lastTime = System.currentTimeMillis();
@@ -70,18 +70,17 @@ public class Example2 extends JPanel implements Container, MouseListener, KeyLis
 			}
 		}
 	}
-	
+
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		if(manager != null)
+		if (manager != null)
 			manager.render(g);
-		requestFocus();
 	}
-	
+
 	@Override
 	public Dimension getPreferredSize() {
-		return new Dimension(500,500);
+		return new Dimension(500, 500);
 	}
 
 	@Override
@@ -96,7 +95,7 @@ public class Example2 extends JPanel implements Container, MouseListener, KeyLis
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		if(manager != null){
+		if (manager != null) {
 			manager.mouseMoved(e.getX(), e.getY());
 			repaint();
 		}
@@ -104,7 +103,7 @@ public class Example2 extends JPanel implements Container, MouseListener, KeyLis
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		if(manager != null){
+		if (manager != null) {
 			manager.mouseMoved(e.getX(), e.getY());
 			repaint();
 		}
@@ -112,7 +111,7 @@ public class Example2 extends JPanel implements Container, MouseListener, KeyLis
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		if(manager != null){
+		if (manager != null) {
 			manager.keyTyped(e.getKeyChar());
 			repaint();
 		}
@@ -120,7 +119,7 @@ public class Example2 extends JPanel implements Container, MouseListener, KeyLis
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if(manager != null){
+		if (manager != null) {
 			manager.keyPressed(e.getExtendedKeyCode());
 			repaint();
 		}
@@ -134,7 +133,7 @@ public class Example2 extends JPanel implements Container, MouseListener, KeyLis
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		if(manager != null){
+		if (manager != null) {
 			manager.mousePressed(e.getX(), e.getY());
 			repaint();
 		}
@@ -142,7 +141,7 @@ public class Example2 extends JPanel implements Container, MouseListener, KeyLis
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		if(manager != null){
+		if (manager != null) {
 			manager.mouseReleased(e.getX(), e.getY());
 			repaint();
 		}
@@ -153,15 +152,15 @@ public class Example2 extends JPanel implements Container, MouseListener, KeyLis
 
 	@Override
 	public void mouseExited(MouseEvent e) {}
-	
+
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
-		if(manager != null) {
+		if (manager != null) {
 			manager.mouseScrolled(e.getX(), e.getY(), e.getWheelRotation());
 			repaint();
 		}
 	}
-	
+
 	@Override
 	public void setCursor(int cursorType) {
 		frame.setCursor(Cursor.getPredefinedCursor(cursorType));

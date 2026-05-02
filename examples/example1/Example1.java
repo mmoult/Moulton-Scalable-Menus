@@ -17,17 +17,17 @@ import javax.swing.JPanel;
 import moulton.scalable.containers.Container;
 import moulton.scalable.containers.MenuManager;
 
-public class Example1 extends JPanel implements Container, MouseListener, KeyListener,
-		MouseMotionListener, MouseWheelListener {
+public class Example1 extends JPanel
+		implements Container, MouseListener, KeyListener, MouseMotionListener, MouseWheelListener {
 	private static final long serialVersionUID = 1L;
 	private MenuManager manager = null;
 	private JFrame frame;
-	
-	public static void main(String args[]){
+
+	public static void main(String args[]) {
 		new Example1();
 	}
-	
-	public Example1(){
+
+	public Example1() {
 		frame = new JFrame("Example 1");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.add(this);
@@ -36,26 +36,25 @@ public class Example1 extends JPanel implements Container, MouseListener, KeyLis
 		frame.pack();
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
-		
+
 		addMouseListener(this);
 		addKeyListener(this);
 		addMouseMotionListener(this);
 		addMouseWheelListener(this);
-		
-		//we don't need a render loop since there is no animation in this example.
+
+		// we don't need a render loop since there is no animation in this example.
 	}
-	
+
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		if(manager != null)
+		if (manager != null)
 			manager.render(g);
-		requestFocus();
 	}
-	
+
 	@Override
 	public Dimension getPreferredSize() {
-		return new Dimension(500,500);
+		return new Dimension(500, 500);
 	}
 
 	@Override
@@ -70,18 +69,19 @@ public class Example1 extends JPanel implements Container, MouseListener, KeyLis
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		if(manager != null){
+		if (manager != null) {
 			manager.mouseMoved(e.getX(), e.getY());
 			repaint();
 		}
 	}
 
 	@Override
-	public void mouseMoved(MouseEvent e) {}
+	public void mouseMoved(MouseEvent e) {
+	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		if(manager != null){
+		if (manager != null) {
 			manager.keyTyped(e.getKeyChar());
 			repaint();
 		}
@@ -89,7 +89,7 @@ public class Example1 extends JPanel implements Container, MouseListener, KeyLis
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		if(manager != null){
+		if (manager != null) {
 			manager.keyPressed(e.getKeyCode());
 			repaint();
 		}
@@ -103,7 +103,7 @@ public class Example1 extends JPanel implements Container, MouseListener, KeyLis
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		if(manager != null){
+		if (manager != null) {
 			manager.mousePressed(e.getX(), e.getY());
 			repaint();
 		}
@@ -111,7 +111,7 @@ public class Example1 extends JPanel implements Container, MouseListener, KeyLis
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		if(manager != null){
+		if (manager != null) {
 			manager.mouseReleased(e.getX(), e.getY());
 			repaint();
 		}
@@ -122,10 +122,10 @@ public class Example1 extends JPanel implements Container, MouseListener, KeyLis
 
 	@Override
 	public void mouseExited(MouseEvent e) {}
-	
+
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
-		if(manager != null) {
+		if (manager != null) {
 			manager.mouseScrolled(e.getX(), e.getY(), e.getWheelRotation());
 			repaint();
 		}

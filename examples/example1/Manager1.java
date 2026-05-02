@@ -26,34 +26,34 @@ public class Manager1 extends MenuManager {
 		format.setFrame("width/50", "height/50");
 		format.setMargin("width/100", "height/100");
 		format.specifyColumnWeight(0, 1.5);
-		format.specifyRowWeight(2, 2.0/3);
-		
-		new Button(null,menu,0,0,null,new Color(255,0,0)).setId("red");
-		new Button(null,menu,1,0,null,new Color(255,128,0)).setId("orange");
-		new Button(null,menu,2,0,null,new Color(255,255,0)).setId("yellow");
-		new Button(null,menu,3,0,null,new Color(128,255,0)).setId("green");
-		
-		new Button(null,menu,0,1,null,new Color(255,64,64));
-		new Button(null,menu,1,1,null,new Color(255,160,64));
-		new Button(null,menu,2,1,null,new Color(255,255,64));
-		new Button(null,menu,3,1,null,new Color(160,255,64));
-		
-		new Button(null,menu,0,2,null,new Color(255,128,128));
-		new Button(null,menu,1,2,null,new Color(255,192,128)).setId("secret");
-		new Button(null,menu,2,2,null,new Color(255,255,128));
-		new Button(null,menu,3,2,null,new Color(192,255,128));
-		
-		new Button(null,menu,0,3,null,new Color(255,192,192));
-		new Button(null,menu,1,3,null,new Color(255,224,192));
-		new Button(null,menu,2,3,null,new Color(255,255,192));
-		new Button(null,menu,3,3,null,new Color(224,255,192)).setId("exit");
+		format.specifyRowWeight(2, 2.0 / 3);
+
+		new Button(null, menu, 0, 0, null, new Color(255, 0, 0)).setId("red");
+		new Button(null, menu, 1, 0, null, new Color(255, 128, 0)).setId("orange");
+		new Button(null, menu, 2, 0, null, new Color(255, 255, 0)).setId("yellow");
+		new Button(null, menu, 3, 0, null, new Color(128, 255, 0)).setId("green");
+
+		new Button(null, menu, 0, 1, null, new Color(255, 64, 64));
+		new Button(null, menu, 1, 1, null, new Color(255, 160, 64));
+		new Button(null, menu, 2, 1, null, new Color(255, 255, 64));
+		new Button(null, menu, 3, 1, null, new Color(160, 255, 64));
+
+		new Button(null, menu, 0, 2, null, new Color(255, 128, 128));
+		new Button(null, menu, 1, 2, null, new Color(255, 192, 128)).setId("secret");
+		new Button(null, menu, 2, 2, null, new Color(255, 255, 128));
+		new Button(null, menu, 3, 2, null, new Color(192, 255, 128));
+
+		new Button(null, menu, 0, 3, null, new Color(255, 192, 192));
+		new Button(null, menu, 1, 3, null, new Color(255, 224, 192));
+		new Button(null, menu, 2, 3, null, new Color(255, 255, 192));
+		new Button(null, menu, 3, 3, null, new Color(224, 255, 192)).setId("exit");
 	}
 
 	@Override
 	public void clickableAction(Clickable c) {
 		String id = c.getId();
-		if(id != null) {
-			switch(id) {
+		if (id != null) {
+			switch (id) {
 			case "secret":
 				PopUp pop = new NotificationPopUp("Here is some really long text that must be "
 						+ "split! I don't know how many lines it will take, but I am guessing that"
@@ -65,7 +65,7 @@ public class Manager1 extends MenuManager {
 			case "orange":
 			case "yellow":
 			case "green":
-				pop = new NotificationPopUp("You pressed a(n) "+id+" button!", null,
+				pop = new NotificationPopUp("You pressed a(n) " + id + " button!", null,
 						new Font("Arial", Font.PLAIN, 15), "ok", this);
 				this.setPopUp(pop);
 				break;

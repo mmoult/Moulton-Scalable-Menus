@@ -3,9 +3,9 @@ package moulton.scalable.utils;
 import expression.ExpressionSolver;
 
 /**
- * This class bundles the necessary functionality for MSM out of Expression's expression solver.
- * The variables that have meaning in the context of menu expressions. The variables provided
- * by default are
+ * This class bundles the necessary functionality for MSM out of Expression's expression solver. The
+ * variables that have meaning in the context of menu expressions. The variables provided by default
+ * are
  * <ul>
  * <li>centerx
  * <li>centery
@@ -24,22 +24,23 @@ public class MenuSolver {
 	/** The list of values for the variables */
 	protected double[] values;
 	/** A set of extended variables only usable by some expressions. */
-	protected static final String[] extended = {"CENTERX", "CENTERY", "WIDTH", "HEIGHT"};
-	
+	protected static final String[] extended = { "CENTERX", "CENTERY", "WIDTH", "HEIGHT" };
+
 	public MenuSolver() {
 		// These are the basic variables that all expressions can use
-		variables = new String[] {"centerx", "centery", "width", "height", "pi", "e"};
-		values = new double[] {0, 0, 0, 0, Math.PI, Math.E};
-		
+		variables = new String[] { "centerx", "centery", "width", "height", "pi", "e" };
+		values = new double[] { 0, 0, 0, 0, Math.PI, Math.E };
+
 		solve = new ExpressionSolver(variables);
 		solve.setVariables(variables);
 		solve.setValues(values);
 	}
 
 	/**
-	 * Update the values for the given container width and container height. This should
-	 * be used before the solver is used to evaluate anything.
-	 * @param contWidth the container width (in pixels)
+	 * Update the values for the given container width and container height. This should be used
+	 * before the solver is used to evaluate anything.
+	 * 
+	 * @param contWidth  the container width (in pixels)
 	 * @param contHeight the container height (in pixels)
 	 */
 	public void updateValues(double contWidth, double contHeight) {
@@ -49,22 +50,23 @@ public class MenuSolver {
 		values[2] = contWidth;
 		values[3] = contHeight;
 	}
-	
+
 	/**
 	 * Adds a new variable to the list kept track of in evaluating expressions.
 	 * <p>
 	 * Variables other than the ones set by the menu size must always have some value, even if
 	 * temporarily bogus, since the last value given is "remembered" when the other values are
 	 * updated.
+	 * 
 	 * @param name the name of the new variable to add. An exception will be thrown if a variable
-	 * with the same name already exists
-	 * @param val the initial value of the variable
+	 *             with the same name already exists
+	 * @param val  the initial value of the variable
 	 */
 	public void addVariable(String name, double val) {
 		for (int i = 0; i < variables.length; i++) {
 			if (variables[i].equals(name))
-				throw new RuntimeException("Cannot add variable \"" + name +
-						"\", which has previously been defined!");
+				throw new RuntimeException(
+						"Cannot add variable \"" + name + "\", which has previously been defined!");
 		}
 		int newLen = variables.length + 1;
 		String[] temp = new String[newLen];
@@ -73,10 +75,10 @@ public class MenuSolver {
 		temp[newLen - 1] = name;
 		variables = temp;
 		solve.setVariables(variables);
-		
+
 		if (values == null) {
 			values = new double[newLen];
-		}else {
+		} else {
 			double[] valTemp = new double[newLen];
 			// copy over all values from 4 (inclusive), which is where the first non-menu-generated
 			// value is located.
@@ -87,13 +89,14 @@ public class MenuSolver {
 		values[newLen - 1] = val;
 		solve.setValues(values);
 	}
-	
+
 	/**
-	 * Updates an individual variable's value, a variable that was created earlier by {@link 
-	 * #addVariable(String, double)}.
+	 * Updates an individual variable's value, a variable that was created earlier by
+	 * {@link #addVariable(String, double)}.
+	 * 
 	 * @param name the name of the variable that is updated. An exception will be thrown if the
-	 * variable does not exist.
-	 * @param val the value to be assigned to the variable
+	 *             variable does not exist.
+	 * @param val  the value to be assigned to the variable
 	 */
 	public void updateVariable(String name, double val) {
 		int i = 0;
@@ -102,15 +105,15 @@ public class MenuSolver {
 				break;
 		}
 		if (i == variables.length)
-			throw new RuntimeException("Cannot set variable \"" + name +
-					"\", which has not previously been defined!");
+			throw new RuntimeException(
+					"Cannot set variable \"" + name + "\", which has not previously been defined!");
 		values[i] = val;
 	}
-	
+
 	public static class Expression implements ExpressionSolver.Expression {
 		protected final ExpressionSolver.Expression expr;
 		public final boolean prefaced;
-		
+
 		public Expression(ExpressionSolver.Expression expr, boolean prefaced) {
 			this.expr = expr;
 			this.prefaced = prefaced;
@@ -120,13 +123,13 @@ public class MenuSolver {
 		public double getValue(ExpressionSolver s) {
 			return s.eval(expr);
 		}
-		
+
 		@Override
 		public String toString() {
-			return (prefaced? "?" : "") + expr.toString();
+			return (prefaced ? "?" : "") + expr.toString();
 		}
 	}
-	
+
 	public String[] extendVars() {
 		String[] vars = new String[variables.length + extended.length];
 		// Copy from the originals into the new
@@ -134,19 +137,22 @@ public class MenuSolver {
 			vars[i] = variables[i];
 		for (int i = 0; i < extended.length; i++)
 			vars[variables.length + i] = extended[i];
-		
+
 		return vars;
 	}
-	
+
 	/**
 	 * Parses the string expression and produces an expression result.
-	 * @param expr the string to parse
+	 * 
+	 * @param expr             the string to parse
 	 * @param prefaceAllowable whether a leading ? char is acceptable. This is often used for
-	 * expressions of dimension (width or height) to indicate it ends at a given location. If
-	 * this expression is a dimension, the extended variable set should not be used.
-	 * @param extended whether the extended variables should be used. This should generally be
-	 * true unless the expression being parsed is a dimension (width or height) in which case,
-	 * the extended variable set is recursively defined.
+	 *                         expressions of dimension (width or height) to indicate it ends at a
+	 *                         given location. If this expression is a dimension, the extended
+	 *                         variable set should not be used.
+	 * @param extended         whether the extended variables should be used. This should generally
+	 *                         be true unless the expression being parsed is a dimension (width or
+	 *                         height) in which case, the extended variable set is recursively
+	 *                         defined.
 	 * @return the Expression object result
 	 */
 	public Expression parse(String expr, boolean prefaceAllowable, boolean extended) {
@@ -162,14 +168,14 @@ public class MenuSolver {
 		Expression exp = new Expression(solve.parseString(expr), preface);
 		// return the variables to original
 		solve.setVariables(variables);
-		
+
 		return exp;
 	}
-	
+
 	public int eval(Expression expr) {
-		return (int)expr.getValue(solve);
+		return (int) expr.getValue(solve);
 	}
-	
+
 	public int evalExtended(Expression expr, double compWidth, double compHeight) {
 		// Add in the extended variables for evaluation
 		String[] extendedVars = extendVars();
@@ -177,18 +183,18 @@ public class MenuSolver {
 		double[] vals = new double[extendedVars.length];
 		for (int i = 0; i < values.length; i++)
 			vals[i] = values[i];
-		vals[values.length + 0] = (vals[2] - compWidth)/2;  // CENTERX = (width - compWidth)/2
-		vals[values.length + 1] = (vals[3] - compHeight)/2; // CENTERY = (height - compHeight)/2
-		vals[values.length + 2] = compHeight;               // WIDTH
-		vals[values.length + 3] = compWidth;                // HEIGHT
+		vals[values.length + 0] = (vals[2] - compWidth) / 2; // CENTERX = (width - compWidth)/2
+		vals[values.length + 1] = (vals[3] - compHeight) / 2; // CENTERY = (height - compHeight)/2
+		vals[values.length + 2] = compHeight; // WIDTH
+		vals[values.length + 3] = compWidth; // HEIGHT
 		solve.setValues(vals);
-		
+
 		double ans = expr.getValue(solve);
-		
+
 		// Restore previous state
 		solve.setVariables(variables);
 		solve.setValues(values);
-		return (int)ans;
+		return (int) ans;
 	}
-	
+
 }

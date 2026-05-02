@@ -195,8 +195,8 @@ public class Panel extends MenuComponent {
 	}
 
 	/**
-	 * It is very frequent that components need their true coordinates for action in relation to
-	 * the mouse (such as in mouse clicking or scrolling) or other uses. The coordinates that the
+	 * It is very frequent that components need their true coordinates for action in relation to the
+	 * mouse (such as in mouse clicking or scrolling) or other uses. The coordinates that the
 	 * component is told for rendering are not necessarily correct. Thus
 	 * {@link #getRenderOffset(MenuComponent)} can be called to get the offsets that define how far
 	 * the x and y components are from their true values, and if any cutting off occurred. For
@@ -206,8 +206,8 @@ public class Panel extends MenuComponent {
 	 * @param xs          the rendering x positions
 	 * @param ys          the rendering y positions
 	 * @param callingComp the component which needs its true coordinates
-	 * @return a two dimensional array where the modified xs are in index 0, and the modified ys
-	 * 		   are in index 1. Therefore, {xs, ys}.
+	 * @return a two dimensional array where the modified xs are in index 0, and the modified ys are
+	 *         in index 1. Therefore, {xs, ys}.
 	 */
 	public int[][] handleOffsets(int[] xs, int[] ys, MenuComponent callingComp) {
 		int[] offs = getRenderOffset(callingComp);
@@ -259,6 +259,7 @@ public class Panel extends MenuComponent {
 
 	/**
 	 * Sets the background color of this panel.
+	 * 
 	 * @param color {@link #color}
 	 * @return this
 	 */
@@ -269,6 +270,7 @@ public class Panel extends MenuComponent {
 
 	/**
 	 * Returns the color of this panel's background.
+	 * 
 	 * @return {@link #color}
 	 */
 	public Color getColor() {
@@ -277,6 +279,7 @@ public class Panel extends MenuComponent {
 
 	/**
 	 * Sets whether or not the panel should draw a black outline on its boundary.
+	 * 
 	 * @param outline {@link #outline}
 	 * @return this
 	 */
@@ -296,7 +299,9 @@ public class Panel extends MenuComponent {
 
 	/**
 	 * Overwrites the value of {@link #textResize}.
-	 * @param resize Sets whether or not this panel and its descendants should resize text by height.
+	 * 
+	 * @param resize Sets whether or not this panel and its descendants should resize text by
+	 *               height.
 	 * @return this
 	 */
 	public Panel setTextResize(Boolean resize) {

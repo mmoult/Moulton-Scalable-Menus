@@ -16,8 +16,8 @@ import javax.swing.JPanel;
 
 import moulton.scalable.containers.Container;
 
-public class Example7 extends JPanel implements Container, MouseListener, KeyListener,
-		MouseMotionListener, MouseWheelListener {
+public class Example7 extends JPanel
+		implements Container, MouseListener, KeyListener, MouseMotionListener, MouseWheelListener {
 	private static final long serialVersionUID = 1L;
 	private Manager7 manager = null;
 	private JFrame frame;
@@ -42,13 +42,13 @@ public class Example7 extends JPanel implements Container, MouseListener, KeyLis
 		addMouseMotionListener(this);
 		addMouseWheelListener(this);
 
-		//start run loop so the screen can refresh every second or so
+		// start run loop so the screen can refresh every second or so
 		run();
 	}
 
 	private void run() {
-		//the only animation is that of the text box blinker. The blinker blinks every
-		//second, thus we render slightly faster to make sure all changes are shown.
+		// the only animation is that of the text box blinker. The blinker blinks every
+		// second, thus we render slightly faster to make sure all changes are shown.
 		final int FRAME_PER_MS = 800;
 		long currentTime;
 		long lastTime = System.currentTimeMillis();
@@ -72,7 +72,6 @@ public class Example7 extends JPanel implements Container, MouseListener, KeyLis
 		super.paintComponent(g);
 		if (manager != null)
 			manager.render(g);
-		requestFocus();
 	}
 
 	@Override
@@ -129,8 +128,7 @@ public class Example7 extends JPanel implements Container, MouseListener, KeyLis
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent e) {
-	}
+	public void mouseClicked(MouseEvent e) {}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
@@ -149,12 +147,10 @@ public class Example7 extends JPanel implements Container, MouseListener, KeyLis
 	}
 
 	@Override
-	public void mouseEntered(MouseEvent e) {
-	}
+	public void mouseEntered(MouseEvent e) {}
 
 	@Override
-	public void mouseExited(MouseEvent e) {
-	}
+	public void mouseExited(MouseEvent e) {}
 
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
@@ -163,7 +159,7 @@ public class Example7 extends JPanel implements Container, MouseListener, KeyLis
 			repaint();
 		}
 	}
-	
+
 	@Override
 	public void setCursor(int cursorType) {
 		frame.setCursor(Cursor.getPredefinedCursor(cursorType));
